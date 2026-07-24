@@ -1,0 +1,123 @@
+@import "tailwindcss";
+
+@theme {
+  --color-background: #020607;
+  --color-surface-dim: #081517;
+  --color-surface-bright: #2e3c3d;
+  --color-surface-container-lowest: #041012;
+  --color-surface-container-low: #101e1f;
+  --color-surface-container: #142224;
+  --color-surface-container-high: #1f2c2e;
+  --color-surface-container-highest: #2a3739;
+  --color-on-surface: #d6e5e7;
+  --color-on-surface-variant: #c3c7c8;
+  --color-inverse-surface: #d6e5e7;
+  --color-inverse-on-surface: #253334;
+  --color-outline: #8d9192;
+  --color-outline-variant: #434748;
+  --color-primary: #c1c8c9;
+  --color-on-primary: #2b3233;
+  --color-primary-container: #020607;
+  --color-on-primary-container: #72797a;
+  --color-secondary: #bcc8d2;
+  --color-on-secondary: #26323a;
+  --color-secondary-container: #3f4b53;
+  --color-on-secondary-container: #aebac4;
+  --color-tertiary: #6fd6e0;
+  --color-on-tertiary: #00363b;
+  --color-tertiary-container: #000708;
+  --color-on-tertiary-container: #00858e;
+  --color-status-warning: #F2C94C;
+  --color-status-critical: #EB5757;
+  --color-deep-teal: #184C59;
+
+  --font-display: Chivo, sans-serif;
+  --font-body: 'Hanken Grotesk', sans-serif;
+  --font-technical: 'Archivo Narrow', sans-serif;
+
+  --spacing-margin-desktop: 64px;
+  --spacing-margin-mobile: 24px;
+  --spacing-gutter: 24px;
+  --spacing-section-gap: 160px;
+}
+
+:root {
+  color-scheme: dark;
+}
+
+body {
+  margin: 0;
+  background-color: #020607; /* Abyss Black */
+  color: #d6e5e7; /* Cold Off-White */
+  font-family: 'Hanken Grotesk', sans-serif;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* Custom visual utilities from Stitch */
+.glass-etch {
+  border: 1px solid rgba(24, 76, 89, 0.4);
+}
+
+.scanline {
+  width: 100%;
+  height: 1px;
+  background: rgba(111, 214, 224, 0.15);
+  position: absolute;
+  animation: scan 8s linear infinite;
+}
+
+@keyframes scan {
+  0% { top: 0; }
+  100% { top: 100%; }
+}
+
+.particle {
+  position: fixed;
+  background: rgba(111, 214, 224, 0.4);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 1;
+  animation: drift var(--duration) ease-in-out infinite alternate;
+}
+
+@keyframes drift {
+  from { transform: translate(0, 0); opacity: 0.2; }
+  to { transform: translate(var(--x), var(--y)); opacity: 0.6; }
+}
+
+.depth-marker {
+  animation: depthMove 10s infinite ease-in-out;
+}
+
+@keyframes depthMove {
+  0%, 100% { top: 20%; }
+  50% { top: 80%; }
+}
+
+.cta-frame {
+  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  clip-path: inset(0 100% 0 0);
+}
+
+.cta-container:hover .cta-frame {
+  clip-path: inset(0 0 0 0);
+}
+
+.cta-container:hover .cta-meta {
+  opacity: 1;
+}
+
+/* Custom scrollbar matching abyssal theme */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #020607;
+}
+::-webkit-scrollbar-thumb {
+  background: #184C59;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #6fd6e0;
+}
