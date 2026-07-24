@@ -1,6 +1,9 @@
+import { useEffect } from 'react';
 import { createBrowserRouter, RouterProvider, Link } from 'react-router-dom';
 import { Shield } from 'lucide-react';
 import LandingPage from '../features/landing/LandingPage';
+import { OceanDataProvider } from '../context/OceanDataContext';
+import { runRelationshipVerifier } from '../services/simulated/verifier';
 
 function MissionControl() {
   return (
@@ -31,7 +34,7 @@ function MissionControl() {
       </main>
 
       <footer className="mt-12 text-xs text-slate-600 font-technical">
-        DEEPSEA GUARDIAN • DSG-001
+        DEEPSEA GUARDIAN • DSG-002
       </footer>
     </div>
   );
@@ -49,5 +52,26 @@ const router = createBrowserRouter([
 ]);
 
 export default function App() {
-  return <RouterProvider router={router} />;
+  useEffect(() => {
+    if (import.meta.env.DEV) {
+      runRelationshipVerifier().then(report => {
+        console.group('DSG-002 Relationship Verification Report');
+        console.log('Overall Status:', report.passed ? '✅ PASS' : '❌ FAIL');
+        report.checks.forEach(check => {
+          console.log(
+            `${check.passed ? '✅' : '❌'} Check #${check.id}: ${check.name} - ${check.message || ''}`
+          );
+        });
+        console.groupEnd();
+      }).catch(err => {
+        console.error('Verifier Execution Error:', err);
+      });
+    }
+  }, []);
+
+  return (
+    <OceanDataProvider>
+      <RouterProvider router={router} />
+    </OceanDataProvider>
+  );
 }

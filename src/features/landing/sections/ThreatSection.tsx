@@ -13,6 +13,7 @@ export default function ThreatSection() {
   const mapContainerRef = useRef<HTMLDivElement>(null);
   const marker1Ref = useRef<HTMLDivElement>(null);
   const marker2Ref = useRef<HTMLDivElement>(null);
+  const scanLineRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const isReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -26,6 +27,7 @@ export default function ThreatSection() {
       gsap.set(mapContainerRef.current, { opacity: 0.2, scale: 0.98 });
       gsap.set(marker1Ref.current, { opacity: 0, scale: 0.8 });
       gsap.set(marker2Ref.current, { opacity: 0, scale: 0.8 });
+      gsap.set(scanLineRef.current, { y: 0, opacity: 0 });
 
       const tl = gsap.timeline({
         scrollTrigger: {
@@ -36,11 +38,17 @@ export default function ThreatSection() {
       });
 
       tl.to(headlineRef.current, { opacity: 1, y: 0, duration: 0.8, ease: 'power2.out' })
-        .to(card1Ref.current, { opacity: 1, x: 0, duration: 0.6, ease: 'power2.out' }, '-=0.4')
-        .to(marker1Ref.current, { opacity: 1, scale: 1, duration: 0.5, ease: 'power2.out' }, '-=0.3')
+        // Map resolves
+        .to(mapContainerRef.current, { opacity: 1, scale: 1, duration: 0.8, ease: 'power2.out' }, '-=0.4')
+        // One-shot scan sweep event
+        .to(scanLineRef.current, { opacity: 0.6, duration: 0.1 })
+        .to(scanLineRef.current, { y: 600, opacity: 0, duration: 1.2, ease: 'power1.inOut' })
+        // First card and marker resolves
+        .to(card1Ref.current, { opacity: 1, x: 0, duration: 0.6, ease: 'power2.out' }, '-=0.3')
+        .to(marker1Ref.current, { opacity: 1, scale: 1, duration: 0.5, ease: 'back.out(1.2)' }, '-=0.4')
+        // Second card and marker resolves
         .to(card2Ref.current, { opacity: 1, x: 0, duration: 0.6, ease: 'power2.out' }, '-=0.3')
-        .to(marker2Ref.current, { opacity: 1, scale: 1, duration: 0.5, ease: 'power2.out' }, '-=0.3')
-        .to(mapContainerRef.current, { opacity: 1, scale: 1, duration: 1, ease: 'power2.out' }, '-=1.2');
+        .to(marker2Ref.current, { opacity: 1, scale: 1, duration: 0.5, ease: 'back.out(1.2)' }, '-=0.4');
     }, sectionRef);
 
     return () => ctx.revert();
@@ -51,7 +59,7 @@ export default function ThreatSection() {
       
       {/* Left Column: Alerts list */}
       <div className="col-span-12 md:col-span-5 mb-12 md:mb-0">
-        <h2 ref={headlineRef} className="font-display text-3xl md:text-5xl font-extrabold mb-8 leading-tight text-white uppercase">
+        <h2 ref={headlineRef} className="font-display text-3xl md:text-5xl font-extrabold mb-8 leading-tight text-white uppercase select-none">
           SEE THE THREATS BEFORE THEY BECOME DAMAGE.
         </h2>
         
@@ -116,6 +124,9 @@ export default function ThreatSection() {
         <div className="absolute top-4 left-4 font-technical text-[10px] text-tertiary opacity-60 uppercase tracking-widest">
           Live_Feed_Resolve: Delta-Quadrant
         </div>
+
+        {/* Scan sweep line overlay */}
+        <div ref={scanLineRef} className="absolute left-0 w-full h-[2px] bg-tertiary opacity-0 z-20 pointer-events-none"></div>
         
         {/* Floating Map Annotations */}
         <div ref={marker1Ref} className="absolute top-[25%] left-[20%] z-20">

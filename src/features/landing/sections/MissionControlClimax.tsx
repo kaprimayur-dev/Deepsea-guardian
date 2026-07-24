@@ -41,7 +41,7 @@ export default function MissionControlClimax() {
   }, []);
 
   return (
-    <section ref={sectionRef} className="py-section-gap px-margin-desktop bg-surface-container-lowest/30 backdrop-blur-xl relative border-t border-deep-teal/20 overflow-hidden">
+    <section ref={sectionRef} id="climax" className="py-section-gap px-margin-desktop bg-surface-container-lowest/30 backdrop-blur-xl relative border-t border-deep-teal/20 overflow-hidden">
       <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-deep-teal/40 to-transparent"></div>
       
       <div className="max-w-5xl mx-auto text-center relative z-10">

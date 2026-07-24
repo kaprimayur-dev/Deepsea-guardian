@@ -1,7 +1,56 @@
+import { useEffect, useRef } from 'react';
+import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+gsap.registerPlugin(ScrollTrigger);
+
 export default function FragmentationSection() {
+  const sectionRef = useRef<HTMLDivElement>(null);
+  const headerRef = useRef<HTMLDivElement>(null);
+  const nodesWrapperRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const isReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (isReduced) return;
+
+    const ctx = gsap.context(() => {
+      gsap.fromTo(headerRef.current,
+        { opacity: 0, y: 30 },
+        {
+          scrollTrigger: {
+            trigger: sectionRef.current,
+            start: 'top 85%',
+            toggleActions: 'play none none reverse',
+          },
+          opacity: 1,
+          y: 0,
+          duration: 0.8,
+          ease: 'power2.out',
+        }
+      );
+
+      gsap.fromTo(nodesWrapperRef.current,
+        { opacity: 0, scale: 0.98 },
+        {
+          scrollTrigger: {
+            trigger: sectionRef.current,
+            start: 'top 75%',
+            toggleActions: 'play none none reverse',
+          },
+          opacity: 1,
+          scale: 1,
+          duration: 1,
+          ease: 'power2.out',
+        }
+      );
+    }, sectionRef);
+
+    return () => ctx.revert();
+  }, []);
+
   return (
-    <section className="py-section-gap px-margin-desktop grid grid-cols-12 gap-gutter relative border-b border-deep-teal/20">
-      <div className="col-span-12 md:col-span-6 mb-16">
+    <section ref={sectionRef} className="py-section-gap px-margin-desktop grid grid-cols-12 gap-gutter relative border-b border-deep-teal/20">
+      <div ref={headerRef} className="col-span-12 md:col-span-6 mb-16">
         <div className="flex items-center gap-4 mb-6">
           <span className="font-technical text-sm text-on-surface-variant font-bold">01</span>
           <span className="w-24 h-[1px] bg-deep-teal"></span>
@@ -14,7 +63,7 @@ export default function FragmentationSection() {
       </div>
 
       {/* Asymmetric Data Nodes Wrapper */}
-      <div className="col-span-12 relative min-h-[600px] border border-deep-teal/20 glass-etch bg-surface-dim/10 backdrop-blur-sm overflow-hidden">
+      <div ref={nodesWrapperRef} className="col-span-12 relative min-h-[600px] border border-deep-teal/20 glass-etch bg-surface-dim/10 backdrop-blur-sm overflow-hidden">
         <div className="scanline z-20"></div>
 
         {/* SATELLITES */}

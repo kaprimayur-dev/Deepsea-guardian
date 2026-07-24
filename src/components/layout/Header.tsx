@@ -1,6 +1,48 @@
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 export default function Header() {
+  const [activeState, setActiveState] = useState<'mission' | 'intelligence' | 'biodiversity'>('mission');
+
+  useEffect(() => {
+    // Add scroll triggers to track current section active state
+    const t1 = ScrollTrigger.create({
+      trigger: '#hero',
+      start: 'top 40%',
+      end: 'bottom 40%',
+      onToggle: (self) => self.isActive && setActiveState('mission'),
+    });
+
+    const t2 = ScrollTrigger.create({
+      trigger: '#threats',
+      start: 'top 50%',
+      end: 'bottom 50%',
+      onToggle: (self) => self.isActive && setActiveState('intelligence'),
+    });
+
+    const t3 = ScrollTrigger.create({
+      trigger: '#biodiversity',
+      start: 'top 50%',
+      end: 'bottom 50%',
+      onToggle: (self) => self.isActive && setActiveState('biodiversity'),
+    });
+
+    const t4 = ScrollTrigger.create({
+      trigger: '#climax',
+      start: 'top 50%',
+      end: 'bottom 50%',
+      onToggle: (self) => self.isActive && setActiveState('mission'),
+    });
+
+    return () => {
+      t1.kill();
+      t2.kill();
+      t3.kill();
+      t4.kill();
+    };
+  }, []);
+
   const scrollToSection = (id: string) => {
     const el = document.getElementById(id);
     if (el) {
@@ -18,7 +60,11 @@ export default function Header() {
           <span className="opacity-30 text-[8px] leading-none mb-1">ST-01 // ACTIVE</span>
           <button 
             onClick={() => scrollToSection('hero')} 
-            className="text-tertiary font-bold hover:text-tertiary transition-colors text-left cursor-pointer"
+            className={`text-left cursor-pointer transition-colors ${
+              activeState === 'mission' 
+                ? 'text-tertiary font-bold border-b border-tertiary pb-1' 
+                : 'text-on-surface-variant font-medium hover:text-tertiary'
+            }`}
           >
             MISSION
           </button>
@@ -27,7 +73,11 @@ export default function Header() {
           <span className="opacity-30 text-[8px] leading-none mb-1">ST-02 // NOMINAL</span>
           <button 
             onClick={() => scrollToSection('threats')} 
-            className="text-on-surface-variant font-medium hover:text-tertiary transition-colors text-left cursor-pointer"
+            className={`text-left cursor-pointer transition-colors ${
+              activeState === 'intelligence' 
+                ? 'text-tertiary font-bold border-b border-tertiary pb-1' 
+                : 'text-on-surface-variant font-medium hover:text-tertiary'
+            }`}
           >
             INTELLIGENCE
           </button>
@@ -36,7 +86,11 @@ export default function Header() {
           <span className="opacity-30 text-[8px] leading-none mb-1">ST-03 // STANDBY</span>
           <button 
             onClick={() => scrollToSection('biodiversity')} 
-            className="text-on-surface-variant font-medium hover:text-tertiary transition-colors text-left cursor-pointer"
+            className={`text-left cursor-pointer transition-colors ${
+              activeState === 'biodiversity' 
+                ? 'text-tertiary font-bold border-b border-tertiary pb-1' 
+                : 'text-on-surface-variant font-medium hover:text-tertiary'
+            }`}
           >
             BIODIVERSITY
           </button>
