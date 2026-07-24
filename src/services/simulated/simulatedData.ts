@@ -62,6 +62,7 @@ export const SIMULATED_SOURCES: ReadonlyArray<IntelligenceSource> = [
     lastTransmission: '2026-07-24T14:00:00Z',
     telemetry: {
       seaSurfaceTemperature: 30.2, // +2.8C anomaly
+      baselineSeaSurfaceTemperature: 27.4,
       dissolvedOxygen: 5.8,
       currentSpeed: 1.4,
       currentDirection: 120,
@@ -79,6 +80,7 @@ export const SIMULATED_SOURCES: ReadonlyArray<IntelligenceSource> = [
     lastTransmission: '2026-07-24T14:15:00Z',
     telemetry: {
       seaSurfaceTemperature: 30.1,
+      baselineSeaSurfaceTemperature: 27.4,
       dissolvedOxygen: 5.9,
       currentSpeed: 1.3,
       currentDirection: 118,
@@ -97,6 +99,7 @@ export const SIMULATED_SOURCES: ReadonlyArray<IntelligenceSource> = [
     lastTransmission: '2026-07-24T13:45:00Z',
     telemetry: {
       seaSurfaceTemperature: 24.5,
+      baselineSeaSurfaceTemperature: 24.5,
       dissolvedOxygen: 7.2,
       currentSpeed: 0.6,
       currentDirection: 340,
@@ -115,6 +118,7 @@ export const SIMULATED_SOURCES: ReadonlyArray<IntelligenceSource> = [
     lastTransmission: '2026-07-24T14:10:00Z',
     telemetry: {
       seaSurfaceTemperature: 28.1,
+      baselineSeaSurfaceTemperature: 28.0,
       dissolvedOxygen: 6.1,
       currentSpeed: 2.1,
       currentDirection: 220,
@@ -133,6 +137,7 @@ export const SIMULATED_SOURCES: ReadonlyArray<IntelligenceSource> = [
     lastTransmission: '2026-07-24T14:20:00Z',
     telemetry: {
       seaSurfaceTemperature: 29.8,
+      baselineSeaSurfaceTemperature: 28.0,
       dissolvedOxygen: 5.9,
       currentSpeed: 1.1,
       currentDirection: 90,
@@ -150,6 +155,7 @@ export const SIMULATED_SOURCES: ReadonlyArray<IntelligenceSource> = [
     lastTransmission: '2026-07-24T14:22:00Z',
     telemetry: {
       seaSurfaceTemperature: 30.0,
+      baselineSeaSurfaceTemperature: 28.0,
       dissolvedOxygen: 5.8,
       currentSpeed: 1.1,
       currentDirection: 95,
@@ -168,6 +174,7 @@ export const SIMULATED_SOURCES: ReadonlyArray<IntelligenceSource> = [
     lastTransmission: '2026-07-24T13:50:00Z',
     telemetry: {
       seaSurfaceTemperature: 27.4,
+      baselineSeaSurfaceTemperature: 27.4,
       dissolvedOxygen: 6.4,
       currentSpeed: 1.8,
       currentDirection: 180,

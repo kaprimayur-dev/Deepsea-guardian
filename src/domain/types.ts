@@ -5,6 +5,7 @@ export type AssetStatus = 'patrolling' | 'en-route' | 'recharging' | 'standby';
 
 export interface EnvironmentalSnapshot {
   seaSurfaceTemperature: number; // °C
+  baselineSeaSurfaceTemperature?: number; // °C (optional reference baseline)
   dissolvedOxygen: number;       // mg/L
   currentSpeed: number;          // kn (knots)
   currentDirection: number;      // ° (degrees 0-359)
