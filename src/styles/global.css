@@ -43,6 +43,15 @@
 
 :root {
   color-scheme: dark;
+  --spacing-margin-desktop: 24px;
+  --spacing-section-gap: 80px;
+}
+
+@media (min-width: 1024px) {
+  :root {
+    --spacing-margin-desktop: 64px;
+    --spacing-section-gap: 160px;
+  }
 }
 
 body {

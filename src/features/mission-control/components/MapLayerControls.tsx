@@ -12,7 +12,7 @@ interface MapLayerControlsProps {
 
 export default function MapLayerControls({ activeLayers, toggleLayer }: MapLayerControlsProps) {
   return (
-    <div className="absolute bottom-6 left-6 z-30 bg-surface/90 border border-deep-teal/40 p-4 backdrop-blur-md shadow-2xl min-w-[200px]">
+    <div className="absolute bottom-4 left-4 md:bottom-6 md:left-6 z-30 bg-surface/90 border border-deep-teal/40 p-3 md:p-4 backdrop-blur-md shadow-2xl min-w-[180px] md:min-w-[200px]">
       <span className="font-technical text-[9px] tracking-[0.3em] text-on-surface-variant uppercase block mb-3 font-bold">
         WORKSPACE LAYERS
       </span>

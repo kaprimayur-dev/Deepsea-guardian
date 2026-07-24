@@ -98,9 +98,9 @@ export default function Header() {
       </div>
       <Link 
         to="/mission-control"
-        className="px-6 py-2 border border-deep-teal font-technical text-xs tracking-widest text-primary hover:border-tertiary hover:text-tertiary transition-all duration-300 active:scale-95 uppercase"
+        className="px-4 md:px-6 py-2 border border-deep-teal font-technical text-[10px] md:text-xs tracking-widest text-primary hover:border-tertiary hover:text-tertiary transition-all duration-300 active:scale-95 uppercase whitespace-nowrap"
       >
-        ENTER MISSION CONTROL →
+        <span className="hidden sm:inline">ENTER </span>MISSION CONTROL <span className="hidden sm:inline">→</span>
       </Link>
     </nav>
   );

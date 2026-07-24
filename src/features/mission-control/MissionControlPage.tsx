@@ -98,13 +98,13 @@ export default function MissionControlPage() {
   return (
     <div className="h-screen w-screen flex flex-col overflow-hidden bg-[#020607] text-[#D6E5E7] font-body-sm select-none">
       {/* HUD Header top bar */}
-      <header className="w-full h-20 bg-[#081517] border-b border-deep-teal/40 px-8 flex justify-between items-center z-40 shrink-0">
-        <div className="flex items-center gap-12">
-          <Link to="/" className="flex items-center gap-4 cursor-pointer group">
-            <div className="w-8 h-8 border-2 border-tertiary flex items-center justify-center group-hover:border-white transition-colors">
-              <div className="w-3 h-3 bg-tertiary group-hover:bg-white transition-colors"></div>
+      <header className="w-full h-14 md:h-20 bg-[#081517] border-b border-deep-teal/40 px-4 md:px-8 flex justify-between items-center z-40 shrink-0">
+        <div className="flex items-center gap-4 md:gap-12">
+          <Link to="/" className="flex items-center gap-2 md:gap-4 cursor-pointer group">
+            <div className="w-6 h-6 md:w-8 md:h-8 border-2 border-tertiary flex items-center justify-center group-hover:border-white transition-colors">
+              <div className="w-2 h-2 md:w-3 md:h-3 bg-tertiary group-hover:bg-white transition-colors"></div>
             </div>
-            <span className="font-narrative-id text-[16px] tracking-[0.4em] text-on-surface uppercase font-bold group-hover:text-white transition-colors">
+            <span className="font-narrative-id text-[12px] md:text-[16px] tracking-[0.2em] md:tracking-[0.4em] text-on-surface uppercase font-bold group-hover:text-white transition-colors">
               DEEPSEA GUARDIAN
             </span>
           </Link>
@@ -117,27 +117,27 @@ export default function MissionControlPage() {
           </div>
         </div>
 
-        <div className="flex items-center gap-8">
-          <div className="flex flex-col items-end">
+        <div className="flex items-center gap-4 md:gap-8">
+          <div className="hidden md:flex flex-col items-end">
             <span className="font-metadata text-[10px] text-on-surface-variant uppercase tracking-wider">SYSTEM STATUS</span>
             <span className="font-metadata text-sm text-tertiary uppercase font-bold tracking-widest">
               OPERATIONAL / NOMINAL
             </span>
           </div>
-          <div className="h-6 w-[1px] bg-deep-teal/30"></div>
+          <div className="h-6 w-[1px] bg-deep-teal/30 hidden md:block"></div>
           <Link
             to="/"
-            className="px-4 py-1.5 border border-deep-teal/60 font-technical text-[10px] tracking-widest text-on-surface hover:border-tertiary hover:text-tertiary transition-colors uppercase cursor-pointer"
+            className="px-3 md:px-4 py-1.5 border border-deep-teal/60 font-technical text-[10px] tracking-widest text-on-surface hover:border-tertiary hover:text-tertiary transition-colors uppercase cursor-pointer whitespace-nowrap"
           >
-            Exit Workspace
+            Exit<span className="hidden sm:inline"> Workspace</span>
           </Link>
         </div>
       </header>
 
       {/* Main workspace container */}
-      <main className="flex-1 flex overflow-hidden w-full relative">
+      <main className="flex-1 flex flex-col lg:flex-row overflow-hidden w-full relative">
         {/* Left Map Dominance Workspace */}
-        <section className="flex-1 h-full relative overflow-hidden bg-[#020607]">
+        <section className="w-full h-[50vh] lg:h-full flex-1 relative overflow-hidden bg-[#020607]">
           {/* Spatial Intelligence Mode Selector */}
           <div className="absolute top-4 left-1/2 -translate-x-1/2 z-20 flex bg-[#020607]/80 backdrop-blur-md border border-deep-teal/40 p-1 select-none">
             {(['risk', 'biodiversity', 'operations'] as const).map(mode => (
@@ -178,7 +178,7 @@ export default function MissionControlPage() {
         </section>
 
         {/* Right Contextual Intelligence Rail */}
-        <aside className="w-[30%] min-w-[380px] max-w-[450px] h-full border-l border-deep-teal/30 z-20 shrink-0">
+        <aside className="w-full lg:w-[30%] lg:min-w-[380px] lg:max-w-[450px] h-[50vh] lg:h-full border-t lg:border-t-0 lg:border-l border-deep-teal/30 z-20 shrink-0 bg-background">
           <IntelligenceRail 
             regions={regions}
             regionIntelligence={regionIntelligenceState.data}

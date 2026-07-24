@@ -183,11 +183,11 @@ export default function HeroSection() {
         </div>
 
         {/* Technical Meta Overlay */}
-        <div ref={leftOverlayRef} className="absolute bottom-12 left-margin-desktop font-technical text-[10px] opacity-40">
+        <div ref={leftOverlayRef} className="hidden md:block absolute bottom-12 left-margin-desktop font-technical text-[10px] opacity-40">
           <div>72.8812° E // SYSTEM_STABLE</div>
           <div>UPTIME: 124.5 DAYS</div>
         </div>
-        <div ref={rightOverlayRef} className="absolute bottom-12 right-margin-desktop text-right font-technical text-[10px] opacity-40">
+        <div ref={rightOverlayRef} className="hidden md:block absolute bottom-12 right-margin-desktop text-right font-technical text-[10px] opacity-40">
           <div>LAT: 45.1221° N</div>
           <div>LON: 123.4567° W</div>
           <div>SIGNAL: OPTIMAL</div>
