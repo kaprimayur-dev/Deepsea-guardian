@@ -1,18 +1,63 @@
+import { useEffect, useRef } from 'react';
 import { AlertTriangle } from 'lucide-react';
+import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+gsap.registerPlugin(ScrollTrigger);
 
 export default function ThreatSection() {
+  const sectionRef = useRef<HTMLDivElement>(null);
+  const headlineRef = useRef<HTMLHeadingElement>(null);
+  const card1Ref = useRef<HTMLDivElement>(null);
+  const card2Ref = useRef<HTMLDivElement>(null);
+  const mapContainerRef = useRef<HTMLDivElement>(null);
+  const marker1Ref = useRef<HTMLDivElement>(null);
+  const marker2Ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const isReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (isReduced) return;
+
+    const ctx = gsap.context(() => {
+      // Set initial states
+      gsap.set(headlineRef.current, { opacity: 0, y: 30 });
+      gsap.set(card1Ref.current, { opacity: 0, x: -30 });
+      gsap.set(card2Ref.current, { opacity: 0, x: -30 });
+      gsap.set(mapContainerRef.current, { opacity: 0.2, scale: 0.98 });
+      gsap.set(marker1Ref.current, { opacity: 0, scale: 0.8 });
+      gsap.set(marker2Ref.current, { opacity: 0, scale: 0.8 });
+
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: 'top 75%',
+          toggleActions: 'play none none reverse',
+        }
+      });
+
+      tl.to(headlineRef.current, { opacity: 1, y: 0, duration: 0.8, ease: 'power2.out' })
+        .to(card1Ref.current, { opacity: 1, x: 0, duration: 0.6, ease: 'power2.out' }, '-=0.4')
+        .to(marker1Ref.current, { opacity: 1, scale: 1, duration: 0.5, ease: 'power2.out' }, '-=0.3')
+        .to(card2Ref.current, { opacity: 1, x: 0, duration: 0.6, ease: 'power2.out' }, '-=0.3')
+        .to(marker2Ref.current, { opacity: 1, scale: 1, duration: 0.5, ease: 'power2.out' }, '-=0.3')
+        .to(mapContainerRef.current, { opacity: 1, scale: 1, duration: 1, ease: 'power2.out' }, '-=1.2');
+    }, sectionRef);
+
+    return () => ctx.revert();
+  }, []);
+
   return (
-    <section id="threats" className="py-section-gap px-margin-desktop grid grid-cols-12 gap-gutter border-b border-deep-teal/20">
+    <section ref={sectionRef} id="threats" className="py-section-gap px-margin-desktop grid grid-cols-12 gap-gutter border-b border-deep-teal/20">
       
       {/* Left Column: Alerts list */}
       <div className="col-span-12 md:col-span-5 mb-12 md:mb-0">
-        <h2 className="font-display text-3xl md:text-5xl font-extrabold mb-8 leading-tight text-white uppercase">
+        <h2 ref={headlineRef} className="font-display text-3xl md:text-5xl font-extrabold mb-8 leading-tight text-white uppercase">
           SEE THE THREATS BEFORE THEY BECOME DAMAGE.
         </h2>
         
         <div className="space-y-6">
           {/* Ghost Net Card */}
-          <div className="p-6 border border-deep-teal/40 bg-surface-dim/20 backdrop-blur-sm border-l-2 border-l-status-critical relative overflow-hidden group">
+          <div ref={card1Ref} className="p-6 border border-deep-teal/40 bg-surface-dim/20 backdrop-blur-sm border-l-2 border-l-status-critical relative overflow-hidden group">
             <div className="absolute top-2 right-4 font-technical text-[8px] opacity-25 tracking-widest group-hover:opacity-100 transition-opacity uppercase text-slate-400">
               MARINE EVENT / DS-2048
             </div>
@@ -36,7 +81,7 @@ export default function ThreatSection() {
           </div>
 
           {/* Thermal Anomaly Card */}
-          <div className="p-6 border border-deep-teal/40 bg-surface-dim/20 backdrop-blur-sm border-l-2 border-l-status-warning relative overflow-hidden group">
+          <div ref={card2Ref} className="p-6 border border-deep-teal/40 bg-surface-dim/20 backdrop-blur-sm border-l-2 border-l-status-warning relative overflow-hidden group">
             <div className="absolute top-2 right-4 font-technical text-[8px] opacity-25 tracking-widest group-hover:opacity-100 transition-opacity uppercase text-slate-400">
               MARINE EVENT / DS-2049
             </div>
@@ -62,7 +107,7 @@ export default function ThreatSection() {
       </div>
 
       {/* Right Column: Tactical Live Map Preview */}
-      <div className="col-span-12 md:col-start-7 md:col-span-6 h-[500px] md:h-[600px] relative overflow-hidden glass-etch group bg-surface-dim/30">
+      <div ref={mapContainerRef} className="col-span-12 md:col-start-7 md:col-span-6 h-[500px] md:h-[600px] relative overflow-hidden glass-etch group bg-surface-dim/30">
         <div 
           className="w-full h-full bg-cover bg-center grayscale opacity-40 group-hover:opacity-75 transition-all duration-1000"
           style={{ backgroundImage: `url('https://images.unsplash.com/photo-1551244072-5d12893278ab?auto=format&fit=crop&w=1200&q=80')` }}
@@ -73,7 +118,7 @@ export default function ThreatSection() {
         </div>
         
         {/* Floating Map Annotations */}
-        <div className="absolute top-[25%] left-[20%] z-20">
+        <div ref={marker1Ref} className="absolute top-[25%] left-[20%] z-20">
           <div className="w-2.5 h-2.5 bg-status-critical rounded-full animate-ping mb-2"></div>
           <div className="p-3 bg-background/95 border border-deep-teal font-technical text-[10px] tracking-wider text-slate-300 backdrop-blur-md">
             <div>LOC: 12.049N 65.211W</div>
@@ -82,7 +127,7 @@ export default function ThreatSection() {
           </div>
         </div>
 
-        <div className="absolute bottom-[30%] right-[25%] z-20">
+        <div ref={marker2Ref} className="absolute bottom-[30%] right-[25%] z-20">
           <div className="w-2.5 h-2.5 bg-status-warning rounded-full animate-ping mb-2"></div>
           <div className="p-3 bg-background/95 border border-deep-teal font-technical text-[10px] tracking-wider text-slate-300 backdrop-blur-md">
             <div>TEMP: +2.1C</div>

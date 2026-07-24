@@ -1,17 +1,85 @@
+import { useEffect, useRef } from 'react';
+import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+gsap.registerPlugin(ScrollTrigger);
+
 export default function BiodiversitySection() {
+  const sectionRef = useRef<HTMLDivElement>(null);
+  const bgImageRef = useRef<HTMLDivElement>(null);
+  const textContainerRef = useRef<HTMLDivElement>(null);
+  const metadataRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const isReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (isReduced) return;
+
+    const ctx = gsap.context(() => {
+      // Parallax scroll for the cinematic background image
+      gsap.fromTo(bgImageRef.current, 
+        { yPercent: -8, scale: 1.05 },
+        {
+          scrollTrigger: {
+            trigger: sectionRef.current,
+            start: 'top bottom',
+            end: 'bottom top',
+            scrub: true,
+          },
+          yPercent: 8,
+          ease: 'none',
+        }
+      );
+
+      // Restrained text content fade-in
+      gsap.fromTo(textContainerRef.current,
+        { opacity: 0, y: 20 },
+        {
+          scrollTrigger: {
+            trigger: sectionRef.current,
+            start: 'top 80%',
+            toggleActions: 'play none none reverse',
+          },
+          opacity: 1,
+          y: 0,
+          duration: 1,
+          ease: 'power2.out',
+        }
+      );
+
+      // Subtle metadata reveal
+      gsap.fromTo(metadataRef.current,
+        { opacity: 0, x: -10 },
+        {
+          scrollTrigger: {
+            trigger: sectionRef.current,
+            start: 'top 70%',
+            toggleActions: 'play none none reverse',
+          },
+          opacity: 0.35,
+          x: 0,
+          duration: 1.2,
+          ease: 'power2.out',
+        }
+      );
+    }, sectionRef);
+
+    return () => ctx.revert();
+  }, []);
+
   return (
-    <section id="biodiversity" className="py-section-gap relative px-margin-desktop overflow-hidden min-h-[700px] flex items-center border-b border-deep-teal/20">
+    <section ref={sectionRef} id="biodiversity" className="relative py-section-gap px-margin-desktop overflow-hidden min-h-[700px] flex items-center border-b border-deep-teal/20">
       
       {/* Cinematic Background */}
       <div className="absolute inset-0 z-0">
         <div 
-          className="w-full h-full bg-cover bg-center opacity-25 mix-blend-screen scale-105 transition-transform duration-[20s] ease-out" 
+          ref={bgImageRef}
+          className="w-full h-[120%] absolute -top-[10%] left-0 bg-cover bg-center opacity-25 mix-blend-screen" 
           style={{ backgroundImage: `url('https://images.unsplash.com/photo-1544551763-46a013bb70d5?auto=format&fit=crop&w=1800&q=80')` }}
         ></div>
         <div className="absolute inset-0 bg-gradient-to-b from-background via-transparent to-background"></div>
       </div>
 
-      <div className="relative z-10 max-w-4xl">
+      <div ref={textContainerRef} className="relative z-10 max-w-4xl">
         <div className="flex items-center gap-4 mb-8">
           <span className="w-24 h-[1px] bg-tertiary"></span>
           <span className="font-technical text-sm tracking-widest text-tertiary uppercase">Biodiversity Monitoring</span>
@@ -40,7 +108,7 @@ export default function BiodiversitySection() {
         </div>
 
         {/* Scattered Scientific Labels */}
-        <div className="mt-20 font-technical text-[8px] opacity-35 tracking-[0.5em] space-y-2 uppercase text-slate-400">
+        <div ref={metadataRef} className="mt-20 font-technical text-[8px] opacity-35 tracking-[0.5em] space-y-2 uppercase text-slate-400">
           <div>// BIO_TELEMETRY: NOMINAL</div>
           <div>// ACOUSTIC_SIGNATURE: WHALE_BLUE_A1</div>
           <div>// HEART_RATE: 12 BPM</div>

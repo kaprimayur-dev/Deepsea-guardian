@@ -176,7 +176,7 @@ export default function AbyssalBackground() {
   }, []);
 
   return (
-    <div className="fixed inset-0 w-full h-full z-0 opacity-80 pointer-events-none bg-background">
+    <div id="abyssal-background" className="fixed inset-0 w-full h-full z-0 opacity-80 pointer-events-none bg-background">
       <canvas ref={canvasRef} className="block w-full h-full" />
     </div>
   );

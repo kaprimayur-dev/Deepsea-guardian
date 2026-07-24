@@ -9,8 +9,10 @@ gsap.registerPlugin(ScrollTrigger);
 export default function ConvergenceSection() {
   const containerRef = useRef<HTMLDivElement>(null);
   const viewportRef = useRef<HTMLDivElement>(null);
+  const titleRef = useRef<HTMLDivElement>(null);
   const noiseRef = useRef<HTMLDivElement>(null);
   const coreRef = useRef<HTMLDivElement>(null);
+  const pulseRef = useRef<HTMLDivElement>(null);
   const line1Ref = useRef<SVGPathElement>(null);
   const line2Ref = useRef<SVGPathElement>(null);
   const line3Ref = useRef<SVGPathElement>(null);
@@ -28,6 +30,10 @@ export default function ConvergenceSection() {
     if (isReduced) return;
 
     const ctx = gsap.context(() => {
+      // Set initial state before scrolling
+      gsap.set(titleRef.current, { opacity: 0, y: 25 });
+      gsap.set(pulseRef.current, { scale: 0.8, opacity: 0 });
+
       // Create scrub timeline tied to scroll pinning
       const tl = gsap.timeline({
         scrollTrigger: {
@@ -58,8 +64,15 @@ export default function ConvergenceSection() {
         }, 'converge')
 
         // Phase 5 - Core Activates & Release
-        .to(coreRef.current, { scale: 1.1, borderColor: '#6fd6e0', duration: 2 }, 'resolve')
-        .to(noiseRef.current, { opacity: 0, duration: 1 }, 'resolve');
+        .to(coreRef.current, { scale: 1.15, borderColor: '#6fd6e0', duration: 2 }, 'resolve')
+        .to(noiseRef.current, { opacity: 0, duration: 1 }, 'resolve')
+        
+        // Sonar/Intelligence pulse
+        .to(pulseRef.current, { scale: 1.1, opacity: 0.8, duration: 0.1 }, 'resolve')
+        .to(pulseRef.current, { scale: 2.8, opacity: 0, duration: 2, ease: 'power2.out' }, 'resolve+=0.1')
+        
+        // ONLY THEN reveal/emphasize the headline
+        .to(titleRef.current, { opacity: 1, y: 0, duration: 2, ease: 'power2.out' }, 'resolve+=0.5');
     }, containerRef);
 
     return () => {
@@ -71,7 +84,7 @@ export default function ConvergenceSection() {
     <div ref={containerRef} className="relative h-[300vh] w-full bg-background/50">
       <div ref={viewportRef} className="relative h-screen w-full flex flex-col justify-between overflow-hidden">
         {/* Editorial Section Title */}
-        <div className="absolute top-20 left-0 w-full text-center z-10 px-margin-desktop">
+        <div ref={titleRef} className="absolute top-20 left-0 w-full text-center z-10 px-margin-desktop">
           <div className="flex flex-col items-center gap-4 mb-4">
             <span className="font-technical text-sm text-on-surface-variant font-bold">02</span>
             <span className="h-10 w-[1px] bg-tertiary"></span>
@@ -89,6 +102,9 @@ export default function ConvergenceSection() {
           <div ref={noiseRef} className="absolute inset-0 flex items-center justify-center opacity-10 pointer-events-none z-1 select-none">
             <span className="font-display text-[25vw] font-black uppercase tracking-widest text-slate-700">NOISE</span>
           </div>
+
+          {/* Sonar/Intelligence Pulse Visual Element */}
+          <div ref={pulseRef} className="absolute w-64 h-64 rounded-full border border-tertiary/60 pointer-events-none z-15"></div>
 
           {/* Core Structure */}
           <div ref={coreRef} className="relative z-20 w-64 h-64 rounded-full border border-deep-teal flex items-center justify-center bg-background/90 backdrop-blur-md transition-colors duration-700">
